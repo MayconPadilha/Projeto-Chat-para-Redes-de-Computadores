@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat da Live</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="usuariosAtivos"></div>
+  <div id="messages"></div>
+  <input type="text" id="inputName" placeholder="Seu Nome" />
+  <input style="display: none;" type="text" id="inputMessage" placeholder="Digite sua mensagem..." />
+  <button onclick="sendMessage()">Enviar</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+
+  <script>
+    const socket = io();
+    let userName = '';
+
+    // Adicione um ouvinte para o evento 'userCount'
+    socket.on('userCount', (count) => {
+      const usuariosAtivosDiv = document.getElementById('usuariosAtivos');
+      usuariosAtivosDiv.textContent = `Usuários Ativos: ${count}`;
+    });
+
+    function setUserName() {
+      const inputName = document.getElementById('inputName');
+      userName = inputName.value.trim();
+      if (userName !== '') {
+        inputName.disabled = true;
+        inputName.style.display = 'none';
+
+        // Envia uma mensagem indicando que o usuário entrou no chat
+        const enterMessage = `${userName} entrou no chat.`;
+        socket.emit('message', { userName: 'Servidor', message: enterMessage });
+
+        // Adiciona a mensagem à interface
+        appendMessage({ userName: 'Servidor', message: enterMessage });
+
+        // Exibe o inputMessage após definir o nome
+        document.getElementById('inputMessage').style.display = 'inline';
+      }
+    }
+
+    function appendMessage(data) {
+      const messagesDiv = document.getElementById('messages');
+      const messageDiv = document.createElement('div');
+
+      // Verifica se a mensagem é do servidor e ajusta a exibição
+      const isServerMessage = data.userName === 'Servidor';
+      messageDiv.textContent = `${isServerMessage ? '' : `[${data.userName}]`} ${data.message}`;
+
+      messagesDiv.appendChild(messageDiv);
+    }
+
+    socket.on('message', (data) => {
+      appendMessage(data);
+    });
+
+    function sendMessage() {
+      if (!userName) {
+        setUserName();
+        return;
+      }
+
+      const inputMessage = document.getElementById('inputMessage');
+      const message = inputMessage.value.trim();
+      if (message !== '') {
+        socket.emit('message', { userName, message });
+        inputMessage.value = '';
+      }
+    }
+
+  </script>
+</body>
+
+</html>
