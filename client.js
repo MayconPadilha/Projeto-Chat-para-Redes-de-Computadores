@@ -1,7 +1,7 @@
 const net = require('net');
 
 // Conectar ao servidor de chat
-const client = net.createConnection({ port: 3000, host: 'localhost' }, () => {
+const client = net.createConnection({ port: 3000, host: '192.168.1.9' }, () => {
   console.log('Conectado ao servidor de chat');
 
   // Lidar com dados recebidos do servidor

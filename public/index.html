@@ -10,11 +10,33 @@
 </head>
 
 <body>
-  <div id="usuariosAtivos"></div>
-  <div id="messages"></div>
-  <input type="text" id="inputName" placeholder="Seu Nome" />
-  <input style="display: none;" type="text" id="inputMessage" placeholder="Digite sua mensagem..." />
-  <button onclick="sendMessage()">Enviar</button>
+  <nav class="fixed-top">
+    <div id="elementoImagem"><img
+        src="https://moodle.restinga.ifrs.edu.br/pluginfile.php/1/core_admin/logocompact/300x300/1694611729/logo_200.png"
+        alt="imagem do if"></div>
+    <div>
+      <div id="elementoNome"></div>
+      <div id="elementoDeSair">></div>
+    </div>
+
+  </nav>
+
+  <main>
+
+    <div class="entradaChat">
+      <input id="inputName" placeholder="Digite seu Nome para entrar no chat" />
+      <button id="btnsetUserName" onclick="setUserName()">Entrar no Chat</button>
+    </div>
+
+    <div id="usuariosAtivos" class="usuariosAtivos"></div>
+    <div id="messages" style="display: none;"></div>
+
+    <div class="envio">
+      <input style="display: none;" type="text" id="inputMessage" placeholder="Digite sua mensagem..." />
+      <button id="btnsendMessage" style="display: none;" onclick="sendMessage()">Enviar</button>
+    </div>    
+
+  </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
 
@@ -25,12 +47,17 @@
     // Adicione um ouvinte para o evento 'userCount'
     socket.on('userCount', (count) => {
       const usuariosAtivosDiv = document.getElementById('usuariosAtivos');
-      usuariosAtivosDiv.textContent = `Usuários Ativos: ${count}`;
+      usuariosAtivosDiv.innerHTML = `<img src="https://cdn-icons-png.flaticon.com/128/33/33308.png" alt="icone de usuarios"> ${count}`;
     });
 
     function setUserName() {
       const inputName = document.getElementById('inputName');
+      const elementoNome = document.getElementById("elementoNome");
+      const elementoSair = document.getElementById("elementoDeSair");
+
       userName = inputName.value.trim();
+      elementoNome.innerHTML = `Olá ${inputName.value}`;
+
       if (userName !== '') {
         inputName.disabled = true;
         inputName.style.display = 'none';
@@ -42,20 +69,43 @@
         // Adiciona a mensagem à interface
         appendMessage({ userName: 'Servidor', message: enterMessage });
 
+        // retira o botao
+        document.getElementById("btnsetUserName").style.display = 'none';
+
+        // Exibe o messages após definir o nome
+        document.getElementById('messages').style.display = 'block';
+
         // Exibe o inputMessage após definir o nome
         document.getElementById('inputMessage').style.display = 'inline';
+
+        // Exibe o inputMessage após definir o nome
+        document.getElementById("btnsendMessage").style.display = 'inline';
+
+        // Exibe o botão de sair
+      elementoSair.style.display = 'inline';
       }
     }
 
+    // Adapte a função appendMessage para incluir timestamps e classes CSS
     function appendMessage(data) {
       const messagesDiv = document.getElementById('messages');
       const messageDiv = document.createElement('div');
 
-      // Verifica se a mensagem é do servidor e ajusta a exibição
       const isServerMessage = data.userName === 'Servidor';
-      messageDiv.textContent = `${isServerMessage ? '' : `[${data.userName}]`} ${data.message}`;
+      messageDiv.className = isServerMessage ? 'server-message' : 'user-message';
+
+      const timestamp = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      messageDiv.innerHTML = `
+        <span>${isServerMessage ? '' : `[${data.userName}]`}</span>
+        <span class="timestamp">${timestamp}</span>
+        <span>${data.message}</span>
+      `
+        ;
 
       messagesDiv.appendChild(messageDiv);
+
+      // Role automaticamente para baixo para mostrar as novas mensagens
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
 
     socket.on('message', (data) => {
@@ -75,6 +125,24 @@
         inputMessage.value = '';
       }
     }
+
+    // Adicione um ouvinte de evento para o Enter no campo inputName
+    document.getElementById('inputName').addEventListener('keyup', (event) => {
+      if (event.key === 'Enter') {
+        setUserName();
+      }
+    });
+
+    // Adicione um ouvinte de evento para o Enter no campo inputMessage
+    document.getElementById('inputMessage').addEventListener('keyup', (event) => {
+      if (event.key === 'Enter') {
+        if (!userName) {
+          setUserName();
+        } else {
+          sendMessage();
+        }
+      }
+    });
 
   </script>
 </body>
