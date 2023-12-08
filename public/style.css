@@ -52,10 +52,9 @@ main {
 #messages {
   overflow-y: scroll;
   height: 300px;
-  /* max-height: 300px; */
   border: 1px solid #ccc;
   padding: 10px;
-  /* display: none; */
+  border-left: 1px solid #ccc;
 }
 
 #inputName, #inputMessage {
@@ -68,11 +67,6 @@ main {
   color: #333;
 }
 
-/* .server-message {
-  color: #888;
-  font-style: italic;
-} */
-
 .timestamp {
   font-size: 0.8em;
   color: #888;
@@ -80,7 +74,14 @@ main {
 }
 
 .envio{
+  display: flex;
+  width: 75%; 
   margin-top: 5px;
+}
+
+#messages-users_block{
+  display: inline-block;
+  width: 100%;
 }
 
 main button{
@@ -96,4 +97,19 @@ main button{
     transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
 
     cursor: pointer;
+}
+
+#activeUsers {
+  display: flex;
+  padding: 10px;
+  margin-left: 10px;
+  height: 100px;
+  overflow-y: scroll;
+  width: 25%; 
+  margin-right: 10px;
+}
+
+#activeUsers h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
 }

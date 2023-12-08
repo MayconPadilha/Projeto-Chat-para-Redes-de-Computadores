@@ -30,19 +30,21 @@
 
     <div id="usuariosAtivos" class="usuariosAtivos"></div>
     <div id="messages" style="display: none;"></div>
+    <div id="messages-users_block">
+      <div class="envio">
+        <input style="display: none;" type="text" id="inputMessage" placeholder="Digite sua mensagem..." />
+        <button id="btnsendMessage" style="display: none;" onclick="sendMessage()">Enviar</button>
+      </div>    
 
-    <div class="envio">
-      <input style="display: none;" type="text" id="inputMessage" placeholder="Digite sua mensagem..." />
-      <button id="btnsendMessage" style="display: none;" onclick="sendMessage()">Enviar</button>
-    </div>    
-
+      <div id="activeUsers" class="active-user" style="display: none;"><h2>Usuários Ativos</h2></div>
+    </div>
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
 
   <script>
     const socket = io();
-    let userName = '';
+    let currentUser = null;
 
     // Adicione um ouvinte para o evento 'userCount'
     socket.on('userCount', (count) => {
@@ -50,26 +52,40 @@
       usuariosAtivosDiv.innerHTML = `<img src="https://cdn-icons-png.flaticon.com/128/33/33308.png" alt="icone de usuarios"> ${count}`;
     });
 
+    socket.on('updateActiveUsers', users => {
+      document.getElementById('activeUsers').innerHTML = '<h2>Usuários Ativos</h2>';
+
+      for (const user of users) {
+        const userDiv = document.createElement('div');
+        userDiv.classList.add('active-user');
+        userDiv.textContent = user.name;
+        document.getElementById('activeUsers').appendChild(userDiv);
+      }
+    });
+
     function setUserName() {
       const inputName = document.getElementById('inputName');
       const elementoNome = document.getElementById("elementoNome");
       const elementoSair = document.getElementById("elementoDeSair");
 
-      userName = inputName.value.trim();
-      elementoNome.innerHTML = `Olá ${inputName.value}`;
+      currentUser = { id: socket.id, name: inputName.value.trim() };  // Inicializa o currentUser
 
-      if (userName !== '') {
+      elementoNome.innerHTML = `Olá ${currentUser.name}`;
+      console.log('Novo cliente conectado:', currentUser.id);
+      console.log('Novo cliente conectado:', currentUser.name);
+
+      if (currentUser.name !== '') {
         inputName.disabled = true;
         inputName.style.display = 'none';
 
         // Envia uma mensagem indicando que o usuário entrou no chat
-        const enterMessage = `${userName} entrou no chat.`;
-        socket.emit('message', { userName: 'Servidor', message: enterMessage });
+        const enterMessage = `${currentUser.name} entrou no chat.`;
+        socket.emit('message', { userName: currentUser.name, message: enterMessage });
 
         // Adiciona a mensagem à interface
-        appendMessage({ userName: 'Servidor', message: enterMessage });
+        //appendMessage({ userName: 'Servidor', message: enterMessage });
 
-        // retira o botao
+        // retira o botão
         document.getElementById("btnsetUserName").style.display = 'none';
 
         // Exibe o messages após definir o nome
@@ -81,8 +97,11 @@
         // Exibe o inputMessage após definir o nome
         document.getElementById("btnsendMessage").style.display = 'inline';
 
+        // Exibe o inputMessage após definir o nome
+        document.getElementById('activeUsers').style.display = 'inline';
+
         // Exibe o botão de sair
-      elementoSair.style.display = 'inline';
+        elementoSair.style.display = 'inline';
       }
     }
 
@@ -96,11 +115,10 @@
 
       const timestamp = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
       messageDiv.innerHTML = `
-        <span>${isServerMessage ? '' : `[${data.userName}]`}</span>
         <span class="timestamp">${timestamp}</span>
+        <span>${isServerMessage ? '' : `[${data.userName}]`}</span>
         <span>${data.message}</span>
-      `
-        ;
+      `;
 
       messagesDiv.appendChild(messageDiv);
 
@@ -113,7 +131,7 @@
     });
 
     function sendMessage() {
-      if (!userName) {
+      if (!currentUser || !currentUser.name) {
         setUserName();
         return;
       }
@@ -121,7 +139,7 @@
       const inputMessage = document.getElementById('inputMessage');
       const message = inputMessage.value.trim();
       if (message !== '') {
-        socket.emit('message', { userName, message });
+        socket.emit('message', { userName: currentUser.name, message });
         inputMessage.value = '';
       }
     }
@@ -136,7 +154,7 @@
     // Adicione um ouvinte de evento para o Enter no campo inputMessage
     document.getElementById('inputMessage').addEventListener('keyup', (event) => {
       if (event.key === 'Enter') {
-        if (!userName) {
+        if (!currentUser || !currentUser.name) {
           setUserName();
         } else {
           sendMessage();
