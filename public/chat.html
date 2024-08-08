@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat da Live</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styleChat.css">
+</head>
+
+<body>
+    <nav class="fixed-top">
+        <div id="elementoImagem"><img
+                src="https://moodle.restinga.ifrs.edu.br/pluginfile.php/1/core_admin/logocompact/300x300/1694611729/logo_200.png"
+                alt="imagem do if"></div>
+        <div>
+            <div id="elementoNome"></div>
+            <!-- <div id="elementoDeSair">></div> -->
+        </div>
+    </nav>
+
+    <main>
+        <section class="chat" id="chat">
+            <div id="usuariosAtivos" class="usuariosAtivos"></div>
+            <div id="messages"></div>
+            <div id="messages-users_block">
+                <div class="envio">
+                    <input type="text" id="inputMessage" placeholder="Digite sua mensagem..." />
+                    <button id="btnsendMessage" onclick="sendMessage()">Enviar</button>
+                </div>
+
+                <div id="activeUsers" class="active-user">
+                    <h2>Usuários Ativos</h2>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+
+    <script>
+        const socket = io();
+        let currentUser = null;
+
+        // Função para obter o valor de um parâmetro da query string
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        //iniciar o novo usuario
+        document.addEventListener('DOMContentLoaded', () => {
+            setUserName()
+        })
+
+        function setUserName() {
+            // pega o nome da url
+            const username = getQueryParam('username');
+            document.getElementById('elementoNome').textContent = `Olá ${username}`;
+
+            const elementoNome = document.getElementById("elementoNome");
+            // const elementoSair = document.getElementById("elementoDeSair");
+
+            currentUser = { id: socket.id, name: username };  // Inicializa o currentUser
+
+            // console.log('Novo cliente conectado:', currentUser.id);
+            // console.log('Novo cliente conectado:', currentUser.name);
+
+            if (currentUser.name !== '') {
+                const enterMessage = `${currentUser.name} entrou no chat.`;
+                socket.emit('message', { userName: currentUser.name, message: enterMessage });
+            }
+        }
+
+        // Adicione um ouvinte para o evento 'userCount'
+        socket.on('userCount', (count) => {
+            const usuariosAtivosDiv = document.getElementById('usuariosAtivos');
+            usuariosAtivosDiv.innerHTML = `<img src="https://cdn-icons-png.flaticon.com/128/33/33308.png" alt="icone de usuarios"> ${count}`;
+        });
+
+        socket.on('updateActiveUsers', users => {
+            document.getElementById('activeUsers').innerHTML = '<h2>Usuários Ativos</h2>';
+
+            for (const user of users) {
+                const userDiv = document.createElement('div');
+                userDiv.classList.add('active-user');
+                userDiv.textContent = user.name;
+                document.getElementById('activeUsers').appendChild(userDiv);
+            }
+        });
+
+        // Adapte a função appendMessage para incluir timestamps e classes CSS
+        function appendMessage(data) {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+
+            const isServerMessage = data.userName === 'Servidor';
+            messageDiv.className = isServerMessage ? 'server-message' : 'user-message';
+
+            const timestamp = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            messageDiv.innerHTML = `
+        <span class="timestamp">${timestamp}</span>
+        <span>${isServerMessage ? '' : `[${data.userName}]`}</span>
+        <span>${data.message}</span>
+      `;
+
+            messagesDiv.appendChild(messageDiv);
+
+            // Role automaticamente para baixo para mostrar as novas mensagens
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        socket.on('message', (data) => {
+            appendMessage(data);
+        });
+
+        function sendMessage() {
+            if (!currentUser || !currentUser.name) {
+                setUserName();
+                return;
+            }
+
+            const inputMessage = document.getElementById('inputMessage');
+            const message = inputMessage.value.trim();
+            if (message !== '') {
+                socket.emit('message', { userName: currentUser.name, message });
+                inputMessage.value = '';
+            }
+        }
+
+        // Adicione um ouvinte de evento para o Enter no campo inputMessage
+        document.getElementById('inputMessage').addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                if (!currentUser || !currentUser.name) {
+                    setUserName();
+                } else {
+                    sendMessage();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

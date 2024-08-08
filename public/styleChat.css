@@ -1,0 +1,100 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+  /* margin: 20px; */
+  /* display: flex; */
+  /* display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0; */
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center;
+  align-items: center;
+  /* height: 50vh; */
+  /*margin-top: 14px; */
+}
+
+.chat {
+  /* height: 2vh; */
+  width: 50vh;
+}
+
+.usuariosAtivos {
+  display: flex;
+  gap: 5px;
+}
+
+.usuariosAtivos img {
+  height: 28px;
+}
+
+#messages {
+  overflow-y: scroll;
+  height: 300px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-left: 1px solid #ccc;
+}
+
+/* #inputName, #inputMessage {
+  width: 50%;
+  font-size: 18px;
+  padding: 5px;
+}  */
+
+.user-message {
+  color: #333;
+}
+
+.timestamp {
+  font-size: 0.8em;
+  color: #888;
+  margin-left: 10px;
+}
+
+.envio {
+  display: flex;
+  width: 75%;
+  margin-top: 5px;
+}
+
+#messages-users_block {
+  display: inline-block;
+  width: 100%;
+}
+
+main button {
+  background-color: #ced4da;
+  font-weight: 400;
+  font-size: 18px;
+  color: #1d2125;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid transparent;
+  padding: 5px 10px 5px 10px;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+#activeUsers {
+  display: flex;
+  padding: 10px;
+  overflow-y: scroll;
+  flex-direction: column;
+}
+
+#activeUsers h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
