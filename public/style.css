@@ -5,25 +5,22 @@
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #f0f2f5;
+  background-color: #d9d9d9;
 }
 
 nav div img {
   max-height: calc(50px - (0.25rem * 2));
 }
 
-nav #elementoNome {
-  font-size: 23px;
-  color: white;
-}
-
 .fixed-top {
   box-shadow: none;
+  font-size: 23px;
+  color: white;
   background-color: #2f9e41;
-  height: 50px;
   display: flex;
   justify-content: space-between;
-  padding: 12px 28px 0px 28px;
+  padding: 12px 28px;
+  align-items: center;
 }
 
 main {
