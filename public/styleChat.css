@@ -2,33 +2,26 @@ main {
   margin-top: 0px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  /* height: 100vh;*/
+  align-items: flex-start;
+  gap: 10px;
 }
 
 .chat {
   display: flex;
   justify-content: center;
-  /* align-items: center; */
-  /* width: 50vw; Define a largura do chat */
-  /* max-width: 600px; Limita a largura máxima do chat */
   background-color: #f5f5f5;
-  /* Exemplo de cor de fundo */
   border-radius: 10px;
-  /* Bordas arredondadas */
   padding: 20px;
   margin-top: 6px;
-  /* Espaçamento interno */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  /* Sombra para destaque */
   flex-direction: column;
   height: calc(81vh);
-  /* Subtrai 20px para deixar um espaço no final */
 }
 
 
 .usuariosAtivos {
   display: flex;
+  align-items: center;
   gap: 5px;
 }
 
@@ -38,19 +31,12 @@ main {
 
 #messages {
   overflow-y: scroll;
-  /* height: 100; */
   border: 1px solid #ccc;
   padding: 10px;
   width: 50vw;
   display: block;
   height: calc(100vh - 20px);
 }
-
-/* #inputName, #inputMessage {
-  width: 50%;
-  font-size: 18px;
-  padding: 5px;
-}  */
 
 .user-message {
   color: #333;
@@ -64,7 +50,6 @@ main {
 
 .envio {
   display: flex;
-  /* width: 75%; */
   margin-top: 5px;
 
   gap: 5px;
@@ -98,10 +83,12 @@ main button {
 
 #activeUsers {
   display: flex;
-  padding: 10px;
-  overflow-y: scroll;
   flex-direction: column;
-  height: 18vh;
+  height: auto;
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 6px;
 }
 
 #activeUsers h2 {
@@ -110,8 +97,23 @@ main button {
 }
 
 @media screen and (max-width: 768px) {
+  main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .chat{
+    height: calc(50vh);
+    width: 81vw;
+  }
 
   #messages {
-    width: 80vw;
+    width: 77vw;
+  }
+
+  #activeUsers {
+    width: 81vw;
+    margin-bottom: 16px;
   }
 }
