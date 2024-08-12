@@ -9,15 +9,15 @@ main {
 .chat {
   display: flex;
   justify-content: center;
-  background-color: #f5f5f5;
+  background-color: #F5FFFA;
   border-radius: 10px;
   padding: 20px;
   margin-top: 6px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   flex-direction: column;
+  width: 30vw;
   height: calc(81vh);
 }
-
 
 .usuariosAtivos {
   display: flex;
@@ -31,47 +31,43 @@ main {
 
 #messages {
   overflow-y: scroll;
-  border: 1px solid #ccc;
+  border: 1px solid #FF6F61;
   padding: 10px;
-  width: 50vw;
   display: block;
   height: calc(100vh - 20px);
+  background-color: #E8F6EF;
+  color: #333333;
 }
 
 .user-message {
-  color: #333;
+  color: #333333;
 }
 
 .timestamp {
   font-size: 0.8em;
-  color: #888;
+  color: #00A878;
   margin-left: 10px;
 }
 
 .envio {
   display: flex;
   margin-top: 5px;
-
   gap: 5px;
 }
 
-.envio input{
+.envio input {
   width: 100%;
   padding-left: 5px;
   border: 1px solid #ddd;
-  word-wrap: "hard";
+  background-color: #F5FFFA;
+  color: #333333;
 }
 
-#messages-users_block {
-  display: inline-block;
-  width: 100%;
-}
-
-main button {
-  background-color: #ced4da;
+.envio button {
+  background-color: #FF6F61;
   font-weight: 400;
   font-size: 18px;
-  color: #1d2125;
+  color: #FFFFFF;
   text-align: center;
   vertical-align: middle;
   border: 1px solid transparent;
@@ -85,25 +81,31 @@ main button {
   display: flex;
   flex-direction: column;
   height: auto;
-  background-color: #f5f5f5;
+  background-color: #F5FFFA;
   padding: 20px;
   border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-top: 6px;
 }
 
 #activeUsers h2 {
   font-size: 20px;
   margin-bottom: 10px;
+  color: #00A878;
 }
 
 @media screen and (max-width: 768px) {
-  main{
+  .fixed-top{
+    justify-content: space-between;
+  }
+
+  main {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  .chat{
+  .chat {
     height: calc(50vh);
     width: 81vw;
   }

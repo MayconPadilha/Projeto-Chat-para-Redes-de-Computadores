@@ -5,22 +5,28 @@
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #d9d9d9;
+  background-color: #E8F6EF;
+}
+
+nav {
+  box-shadow: none;
+  font-size: 23px;
+  color: #FFFFFF;
+  background-color: #00A878;
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 28px;
+  align-items: center;
+}
+
+nav div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 nav div img {
-  max-height: calc(50px - (0.25rem * 2));
-}
-
-.fixed-top {
-  box-shadow: none;
-  font-size: 23px;
-  color: white;
-  background-color: #2f9e41;
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 28px;
-  align-items: center;
+  height: calc(50px - (0.25rem * 2));
 }
 
 main {
@@ -37,13 +43,13 @@ main {
 }
 
 .entradaChat {
-  background-color: #ffffff;
+  background-color: #F5FFFA;
   padding: 20px 30px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
   max-width: 400px;
-  width: 100%;
+  width: 81vw;
 }
 
 .entradaChat input {
@@ -56,10 +62,11 @@ main {
   color: #555;
   outline: none;
   box-sizing: border-box;
+  background-color: #FFFFFF;
 }
 
 .entradaChat input:focus {
-  border-color: #007bff;
+  border-color: #00A878;
 }
 
 .entradaChat h2 {
@@ -69,7 +76,7 @@ main {
 }
 
 .entradaChat button {
-  background-color: #007bff;
+  background-color: #FF6F61;
   color: white;
   padding: 12px 15px;
   border: none;
@@ -81,5 +88,5 @@ main {
 }
 
 .entradaChat button:hover {
-  background-color: #0056b3;
+  background-color: #E55C52;
 }

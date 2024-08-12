@@ -4,15 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat da Live</title>
-
+  <title>Chat</title>
+  <link rel="shortcut icon" href="./image/icon.svg" type="image/svg">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <nav class="fixed-top">
+  <nav>
     <div id="elementoImagem"><img
-        src="https://moodle.restinga.ifrs.edu.br/pluginfile.php/1/core_admin/logocompact/300x300/1694611729/logo_200.png"
+        src="https://moodle.restinga.ifrs.edu.br/pluginfile.php/1/core_admin/logo/0x200/1707227321/logo_600.png"
         alt="imagem do if"></div>
   </nav>
 
@@ -20,7 +20,7 @@
     <section class="login" id="login">
       <div class="entradaChat">
         <h2>Entrar no Chat</h2>
-        <input id="inputName" placeholder="Digite seu Nome para entrar no chat" />
+        <input id="inputName" placeholder="Digite seu nome..."/>
         <button id="btnsetUserName" onclick="setUserName()">Entrar</button>
       </div>
     </section>
@@ -34,7 +34,6 @@
       window.location.href = `chat.html?username=${userName}`;
     }
 
-    //Adicione um ouvinte de evento para o Enter no campo inputName
     document.getElementById('inputName').addEventListener('keyup', (event) => {
       if (event.key === 'Enter') {
         setUserName();
