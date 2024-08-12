@@ -19,19 +19,39 @@
   <main>
     <section class="login" id="login">
       <div class="entradaChat">
+        <div class="descricaoChat">
+          <p>Bem-vindo ao Chat - conecte-se, compartilhe ideias e aproveite discussões em tempo real!</p>
+        </div>
+
         <h2>Entrar no Chat</h2>
+        <div id="error-message" style="color: red; display: none;">Por favor, digite um nome.</div>
         <input id="inputName" placeholder="Digite seu nome..."/>
         <button id="btnsetUserName" onclick="setUserName()">Entrar</button>
+        
+        <div class="destaquesFuncionalidades">
+          <h3>Destaques e Funcionalidades</h3>
+          <ul>
+            <li>💬 Mensagens em tempo real com suporte a emojis</li>
+            <li>📱 Interface responsiva, adaptada para mobile</li>
+            <li>🔒 Segurança e privacidade garantidas</li>
+          </ul>
+        </div>
       </div>
     </section>
   </main>
 
   <script>
-
     function setUserName() {
       const inputName = document.getElementById('inputName');
       const userName = inputName.value.trim();
-      window.location.href = `chat.html?username=${userName}`;
+      const errorMessage = document.getElementById('error-message');
+
+      if (userName === '') {
+        errorMessage.style.display = 'block';
+      } else {
+        errorMessage.style.display = 'none';
+        window.location.href = `chat.html?username=${userName}`;
+      }
     }
 
     document.getElementById('inputName').addEventListener('keyup', (event) => {
@@ -39,7 +59,6 @@
         setUserName();
       }
     });
-
   </script>
 </body>
 </html>
