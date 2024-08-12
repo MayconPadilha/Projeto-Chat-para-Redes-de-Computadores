@@ -8,6 +8,7 @@
     <link rel="shortcut icon" href="./image/icon.svg" type="image/svg">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="styleChat.css">
+    <script src="https://kit.fontawesome.com/4eb0e9cbb9.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -17,7 +18,9 @@
                 alt="imagem do if"></div>
         <div>
             <div id="elementoNome"></div>
-            <!-- <div id="elementoDeSair">></div> -->
+            <div id="elementoDeSair">
+                <i class="fa-solid fa-right-from-bracket" onclick="sair()"></i>
+            </div>
         </div>
     </nav>
 
@@ -73,6 +76,10 @@
                 const enterMessage = `${currentUser.name} entrou no chat.`;
                 socket.emit('message', { userName: currentUser.name, message: enterMessage });
             }
+        }
+
+        function sair() {
+            window.location.href = `index.html`;
         }
 
         // Adicione um ouvinte para o evento 'userCount'
