@@ -1,0 +1,22 @@
+:root {
+  /* Colors */
+  --text-base-primary: #333333;
+  --text-base-secundary: #ffffff;
+  --text-base-tertiary: #006064;
+  --text-base-quaternary: #555555;
+
+  --bg-color: #ffffff;
+  --bg-color-primary: #F5FFFA;
+  --bg-color-secundary: #E8F6EF;
+  --bg-color-tertiary: #00A878;
+  --bg-color-quaternary: #FF6F61;
+  --bg-color-quaternary-focus: #E55C52;
+  --bg-color-quinary: #e0f7fa;
+
+  --color-input-primary: #dddddd;
+
+  --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  /* Fonts */
+  --font-arial-dm-sans: "Arial", sans-serif;
+}

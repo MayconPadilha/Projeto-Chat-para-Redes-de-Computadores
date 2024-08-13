@@ -6,15 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat</title>
   <link rel="shortcut icon" href="./image/icon.svg" type="image/svg">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./css/vars.css">
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
-  <nav>
-    <div id="elementoImagem"><img
-        src="https://moodle.restinga.ifrs.edu.br/pluginfile.php/1/core_admin/logo/0x200/1707227321/logo_600.png"
-        alt="imagem do if"></div>
-  </nav>
+  <header>
+    <nav>
+      <div id="elementoImagem"><img
+          src="https://moodle.restinga.ifrs.edu.br/pluginfile.php/1/core_admin/logo/0x200/1707227321/logo_600.png"
+          alt="imagem do if"></div>
+    </nav>
+  </header>
 
   <main>
     <section class="login" id="login">
@@ -25,9 +28,9 @@
 
         <h2>Entrar no Chat</h2>
         <div id="error-message">Por favor, digite um nome.</div>
-        <input id="inputName" placeholder="Digite seu nome..."/>
+        <input id="inputName" placeholder="Digite seu nome..." />
         <button id="btnsetUserName" onclick="setUserName()">Entrar</button>
-        
+
         <div class="destaquesFuncionalidades">
           <h3>Destaques e Funcionalidades</h3>
           <ul>
@@ -61,4 +64,5 @@
     });
   </script>
 </body>
+
 </html>
